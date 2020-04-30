@@ -1,21 +1,27 @@
 const fs = require("fs");
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
 
+// DEFINE PROJECT AND SECRET NAME
 const PROJECT = "loopgroup-dev";
 const SECRET = "simple";
 
+// CONSTRUCT PATH TO THE SECRET
 const name = `projects/${PROJECT}/secrets/${SECRET}/versions/latest`;
 
+// GENERATE SECRET MANAGER CLIENT
 const client = new SecretManagerServiceClient();
 
 async function accessSecretVersion() {
+  // FETCH SECRET VERSION
   const [version] = await client.accessSecretVersion({
     name,
   });
 
-  const payload = version.payload.data.toString("utf8");
+  // CONVERT VERSION INTO STRING
+  const value = version.payload.data.toString("utf8");
 
-  fs.writeFileSync(".env.simple", payload);
+  // CREATE ENV FILE WITH FETCHED SECRET
+  fs.writeFileSync(".env.simple", value);
 }
 
 accessSecretVersion()
