@@ -37,6 +37,7 @@ async function fetchSecrets() {
 
 fetchSecrets()
   .then(() => {
+    console.log("Successfully fetched credentials");
     process.exit(0);
   })
   .catch((err) => {

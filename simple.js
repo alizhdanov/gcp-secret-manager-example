@@ -11,7 +11,7 @@ const name = `projects/${PROJECT}/secrets/${SECRET}/versions/latest`;
 // GENERATE SECRET MANAGER CLIENT
 const client = new SecretManagerServiceClient();
 
-async function accessSecretVersion() {
+async function fetchSecrets() {
   // FETCH SECRET VERSION
   const [version] = await client.accessSecretVersion({
     name,
@@ -24,7 +24,7 @@ async function accessSecretVersion() {
   fs.writeFileSync(".env.simple", value);
 }
 
-accessSecretVersion()
+fetchSecrets()
   .then(() => {
     console.log("Successfully fetched credentials");
     process.exit(0);
